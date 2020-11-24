@@ -29,7 +29,7 @@ public class FakeNamesFile {
     }
 
     /**
-     * Gets all the names from the file specified in the constructor. It is assumed that this file has one username per line.
+     * Gets all the names from the file specified in the constructor. It is assumed that this file has one username per line. Any lines that start with a `#` will be ignored.
      * @return A <code>List</code> of <code>String</code>s that represent all the (valid) usernames to be injected.
      */
     public List<String> readNames() {
@@ -53,9 +53,12 @@ public class FakeNamesFile {
                 // Trim spaces in front and back in case they were accidentally left in
                 line = line.trim();
 
+                // Skip over comments
+                if (line.charAt(0) == '#')
+                    continue;
+
                 // https://help.minecraft.net/hc/en-us/articles/360034636712-Minecraft-Usernames
                 // Usernames are 3-16 characters, alphanumeric, no spaces, with underscores allowed.
-
                 if (!line.matches("[A-Za-z0-9_]{3,16}")) {
                     System.err.printf("[WARNING]: Ignoring username \"%s\" as it does not adhere to the proper username format. Refer to the README for details.%n", line);
                     continue;
