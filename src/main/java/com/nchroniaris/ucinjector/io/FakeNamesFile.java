@@ -35,7 +35,6 @@ public class FakeNamesFile {
     public List<String> readNames() {
 
         List<String> nameList = new ArrayList<>();
-        StringBuilder nameString = new StringBuilder();
 
         // try-with-resources on a new buffered reader.
         try (BufferedReader reader = new BufferedReader(new FileReader(this.file))) {
@@ -65,7 +64,6 @@ public class FakeNamesFile {
                 }
 
                 nameList.add(line);
-                nameString.append(line);
 
             }
 
@@ -76,7 +74,6 @@ public class FakeNamesFile {
 
         }
 
-        System.out.println(nameString.toString());
         return nameList;
 
     }
