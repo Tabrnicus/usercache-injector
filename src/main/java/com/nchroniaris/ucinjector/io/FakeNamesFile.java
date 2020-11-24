@@ -52,8 +52,8 @@ public class FakeNamesFile {
                 // Trim spaces in front and back in case they were accidentally left in
                 line = line.trim();
 
-                // Skip over comments
-                if (line.charAt(0) == '#')
+                // Skip over comments and empty lines
+                if (line.length() == 0 || line.charAt(0) == '#')
                     continue;
 
                 // https://help.minecraft.net/hc/en-us/articles/360034636712-Minecraft-Usernames
