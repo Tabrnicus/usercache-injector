@@ -77,6 +77,10 @@ public class UsercacheFile {
 
     }
 
+    /**
+     * This method **overwrites**, (no append) the file specified by <code>this.file</code> with the contents from string passed into the method.
+     * @param json The text to overwrite, serialized as a JSON array.
+     */
     public void overwriteFile(String json) {
 
         // Open the file for overwriting (note the second parameter: false)

@@ -6,6 +6,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is responsible for reading/writing to the fake names file. This file includes all the names that the user wants to inject in the usercache file.
+ */
 public class FakeNamesFile {
 
     // Relative to the jar file
@@ -36,6 +39,9 @@ public class FakeNamesFile {
 
     }
 
+    /**
+     * This method validates the file specified by the default location. In particular, it will create a new file if it does not exist. If it exists, it leaves it alone.
+     */
     private void validateDefaultFile() {
 
         File defaultFile = new File(FakeNamesFile.DEFAULT_PATH);
