@@ -1,17 +1,25 @@
 package com.nchroniaris.ucinjector.io;
 
+import com.nchroniaris.ucinjector.Main;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FakeNamesFile {
 
+    // Relative to the jar file
+    private static final String DEFAULT_PATH = Main.findJarWorkingDir() + File.separator + "fakenames.txt";
+
     private final File file;
 
     public FakeNamesFile(String filePath) {
 
-        if (filePath == null)
-            throw new IllegalArgumentException("The file path cannot be null!");
+        // If the filepath is null, use the default path and validate the file so the following checks don't fail (usually)
+        if (filePath == null) {
+            filePath = FakeNamesFile.DEFAULT_PATH;
+            this.validateDefaultFile();
+        }
 
         this.file = new File(filePath);
 
