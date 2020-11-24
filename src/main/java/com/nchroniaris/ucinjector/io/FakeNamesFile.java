@@ -28,6 +28,33 @@ public class FakeNamesFile {
 
     }
 
+    private void validateDefaultFile() {
+
+        File defaultFile = new File(FakeNamesFile.DEFAULT_PATH);
+
+        // If the file does not exist generate one
+        if (!defaultFile.exists()) {
+
+            System.out.println("[INFO]: No fake names file was specified, and the default one could not be found, so a new one was created. Please fill out the file with names or else the program will not do anything.");
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(defaultFile))) {
+
+                // Write comment and newline
+                writer.write("# Every line is one username you want to spoof in the usercache. MC usernames are 3-16 characters, alphanumeric, no spaces, with underscores allowed.");
+                writer.newLine();
+
+            } catch (IOException e) {
+
+                // TODO: 2020-11-24 do something useful here
+                e.printStackTrace();
+                System.exit(1);
+
+            }
+
+        }
+
+    }
+
     /**
      * Gets all the names from the file specified in the constructor. It is assumed that this file has one username per line. Any lines that start with a `#` will be ignored.
      * @return A <code>List</code> of <code>String</code>s that represent all the (valid) usernames to be injected.
