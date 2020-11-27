@@ -23,14 +23,28 @@ public class Injector {
     private String pathUsercache;
     private String pathFakeNames;
 
+    private final InjectorProperties properties;
+
+    /**
+     * This is the main properties holder for this class. This makes adding more boolean arguments way easier. All the values are set to default upon instantiation
+     */
+    public static class InjectorProperties {
+
+        public boolean checkUsernames = false;
+
+        public InjectorProperties() {
+        }
+
+    }
+
     /**
      * Constructs an instance of Injector. Use this when you have a custom path for the fake name list.
      * @param pathUsercache The path to the <code>usercache.json</code> file.
      * @param pathFakeNames The path to the file that holds all the usernames you wish to inject.
      */
-    public Injector(String pathUsercache, String pathFakeNames) {
+    public Injector(InjectorProperties properties, String pathUsercache, String pathFakeNames) {
 
-        this(pathUsercache);
+        this(properties, pathUsercache);
 
         if (pathFakeNames == null)
             throw new IllegalArgumentException("The argument pathFakeNames cannot be null!");
@@ -43,10 +57,15 @@ public class Injector {
      * Constructs an instance of Injector. Use this when you want to use the default path for the fake name list.
      * @param pathUsercache The path to the <code>usercache.json</code> file.
      */
-    public Injector(String pathUsercache) {
+    public Injector(InjectorProperties properties, String pathUsercache) {
 
         if (pathUsercache == null)
             throw new IllegalArgumentException("The argument pathUsercache cannot be null!");
+
+        if (properties == null)
+            throw new IllegalArgumentException("The properties argument cannot be null! To specify default values, instantiate an InjectorProperties and pass it in.");
+
+        this.properties = properties;
 
         this.pathUsercache = pathUsercache;
         this.pathFakeNames = null;
@@ -96,7 +115,7 @@ public class Injector {
             boolean userFound = false;
 
             // If the fake name exists, don't do anything as it can be handled in the normal way.
-            if (UUIDManager.usernameExists(fakeUser)) {
+            if (this.properties.checkUsernames && UUIDManager.usernameExists(fakeUser)) {
                 System.err.printf("[WARNING] The username (%s) is actually registered to a real account on Mojang's servers, so it will be skipped. Good news, you don't have to use this program for that username. Because of this, please remove it from the fake name list to avoid unnecessary API calls.%n", fakeUser);
                 continue;
             }
@@ -124,7 +143,7 @@ public class Injector {
                 // Generate a new fake UUID. This is not guaranteed to be unique (contrary to the name :P) so we check it with Mojang's servers to make sure. 99.99999% of the time this loop will only execute once, but who knows, you might get lucky.
                 fakeUUID = UUIDManager.generateUUID();
 
-            } while (UUIDManager.uuidExists(fakeUUID));
+            } while (this.properties.checkUsernames && UUIDManager.uuidExists(fakeUUID));
 
             // Add a new User with a fake UUID and a new expiry date. This is potentially inefficient because on the next run we have n + 1 users to search through but I don't imagine the use cases of this program involving adding a very large number of users to the usercache.
             if (!userFound)
