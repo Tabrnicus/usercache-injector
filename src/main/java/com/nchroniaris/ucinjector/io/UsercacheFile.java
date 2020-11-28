@@ -42,6 +42,7 @@ public class UsercacheFile {
 
     /**
      * This method reads the provided usercache.json file and appends all the lines to one string. This is done for safety, but it should always be the case that usercache.json is always one line.
+     *
      * @return A <code>String</code> of the entire file. This will almost always be a JSON-parsable string (unless you give it some random file).
      */
     public String readData() {
@@ -79,6 +80,7 @@ public class UsercacheFile {
 
     /**
      * This method **overwrites**, (no append) the file specified by <code>this.file</code> with the contents from string passed into the method.
+     *
      * @param json The text to overwrite, serialized as a JSON array.
      */
     public void overwriteFile(String json) {

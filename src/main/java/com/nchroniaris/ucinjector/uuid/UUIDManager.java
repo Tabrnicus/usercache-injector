@@ -21,6 +21,7 @@ public class UUIDManager {
 
     /**
      * This is a "generic" (not Java generics) method that sends a GET request to a URL and ONLY obtains its status code. That status code is analyzed and if it's OK (200) then this returns true. If it's NO_CONTENT (204), it returns false. If it gets any other status code or encounters some error along the way it will print to stderr and also return false.
+     *
      * @param urlString A valid URL as a string. This method will make a GET request to it.
      * @return true iff URL status code is OK (200), false otherwise.
      */
@@ -73,6 +74,7 @@ public class UUIDManager {
 
     /**
      * Checks if a Minecraft UUID belongs to a real player
+     *
      * @param uuid A Minecraft UUID, can be stylized (with dashes) or not
      * @return true if the UUID belongs to a real player, false otherwise
      */
@@ -85,6 +87,7 @@ public class UUIDManager {
 
     /**
      * Checks if a Minecraft username belongs to a real player
+     *
      * @param username A Minecraft username. Formatting is not checked in this method
      * @return true if the username belongs to a real player, false otherwise
      */
@@ -97,6 +100,7 @@ public class UUIDManager {
 
     /**
      * Generates a random UUID based on the usual format. Generated UUIDs should be checked for conflicts with real players using the other methods in this class but is not strictly required. The generation space is so large, [0, 2^128 -1] (!) that it's unlikely (but not impossible!) to have a conflict.
+     *
      * @return A random, stylized UUID string. Likely (not guaranteed) to be fake (no real player has this UUID).
      */
     public static String generateUUID() {

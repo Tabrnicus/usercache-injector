@@ -71,6 +71,7 @@ public class FakeNamesFile {
 
     /**
      * Gets all the names from the file specified in the constructor. It is assumed that this file has one username per line. Any lines that start with a `#` will be ignored.
+     *
      * @return A <code>List</code> of <code>String</code>s that represent all the (valid) usernames to be injected.
      */
     public List<String> readNames() {
