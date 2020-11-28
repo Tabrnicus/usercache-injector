@@ -39,6 +39,7 @@ public class Injector {
 
     /**
      * Constructs an instance of Injector. Use this when you have a custom path for the fake name list.
+     *
      * @param pathUsercache The path to the <code>usercache.json</code> file.
      * @param pathFakeNames The path to the file that holds all the usernames you wish to inject.
      */
@@ -55,6 +56,7 @@ public class Injector {
 
     /**
      * Constructs an instance of Injector. Use this when you want to use the default path for the fake name list.
+     *
      * @param pathUsercache The path to the <code>usercache.json</code> file.
      */
     public Injector(InjectorProperties properties, String pathUsercache) {
@@ -100,8 +102,9 @@ public class Injector {
 
     /**
      * This method scans the fake names list and figures out which to add and which to update. It then either modifies the entry in the list or it adds new entries. Usernames will be checked against Mojang's servers for conflicts with real usernames
+     *
      * @param fakeNames A list of fake usernames to add/update.
-     * @param userList A list of users. This will be modified during the course of this method call.
+     * @param userList  A list of users. This will be modified during the course of this method call.
      */
     private void updateFakeUsers(List<String> fakeNames, List<User> userList) {
 
@@ -111,7 +114,7 @@ public class Injector {
 
         // The goal of this program is to get every fake player name in the usercache with some uuid (can be random) and some expiry date.
         for (String fakeUser : fakeNames) {
-            
+
             boolean userFound = false;
 
             // If the fake name exists, don't do anything as it can be handled in the normal way.
@@ -135,25 +138,29 @@ public class Injector {
             }
 
             // If the user wasn't found in that entire list, we need to add this fake player as a new one.
-            // Here we generate a new UUID and keep it as long as it's not tied to any account.
-            String fakeUUID;
+            if (!userFound) {
 
-            do {
+                // Here we generate a new UUID and keep it as long as it's not tied to any account.
+                String fakeUUID;
 
-                // Generate a new fake UUID. This is not guaranteed to be unique (contrary to the name :P) so we check it with Mojang's servers to make sure. 99.99999% of the time this loop will only execute once, but who knows, you might get lucky.
-                fakeUUID = UUIDManager.generateUUID();
+                do {
 
-            } while (this.properties.checkUsernames && UUIDManager.uuidExists(fakeUUID));
+                    // Generate a new fake UUID. This is not guaranteed to be unique (contrary to the name :P) so we check it with Mojang's servers to make sure. 99.99999% of the time this loop will only execute once, but who knows, you might get lucky.
+                    // Note that we also check this regardless of the checkUsernames flag, because of the aforementioned luckiness, you could run into issues if you used a real UUID for a fake player. Maybe I am overreacting, but this shouldn't run too often anyway.
+                    fakeUUID = UUIDManager.generateUUID();
 
-            // Add a new User with a fake UUID and a new expiry date. This is potentially inefficient because on the next run we have n + 1 users to search through but I don't imagine the use cases of this program involving adding a very large number of users to the usercache.
-            if (!userFound)
+                } while (UUIDManager.uuidExists(fakeUUID));
+
+                // Add a new User with a fake UUID and a new expiry date. This is potentially inefficient because on the next run we have n + 1 users to search through but I don't imagine the use cases of this program involving adding a very large number of users to the usercache.
                 userList.add(new User(
                         fakeUser,
                         fakeUUID,
                         newExpiry
                 ));
 
-        }       // End for loop
+            }
+
+        }       // End for loop for fake players
 
     }
 
