@@ -1,6 +1,12 @@
 # Usercache Injector
 Command line application for injecting or otherwise modifying `usercache.json` on Minecraft servers
 
+## Deprecated
+
+As of [Carpet Mod 1.4.38](https://github.com/gnembon/fabric-carpet/releases/tag/1.4.38), spawning offline players has been [implemented in this commit](https://github.com/gnembon/fabric-carpet/commit/0cb20e07957d9d7ac9ceef62e1b3bac455bdc174), which makes this project no longer useful.
+
+<hr>
+
 ## Description
 This program modifies the `usercache.json` file on Minecraft servers to include extra entries for fake players. The reason is that servers with `online-mode=true` have the restriction that it can only support players with real usernames (i.e. the username they are trying to connect with is associated with a real Minecraft account). This is a generally a good thing to have for the most part, except that it limits the usage of specific tools such as the [player command](https://youtu.be/Lt-ooRGpLz4?t=1703) from [Carpet Mod](https://github.com/gnembon/fabric-carpet). Essentially, the issue is that you cannot summon players with fake names into the server, as the server will ask Mojang for player information, but would receive none.
 
